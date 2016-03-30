@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System;
 
 namespace DiscordOverlayHost.Controls
 {
@@ -15,7 +16,7 @@ namespace DiscordOverlayHost.Controls
             set
             {
                 _bgc1 = value;
-                this.Invalidate();
+                CreateBackgroundBrush();
             }
         }
 
@@ -25,7 +26,7 @@ namespace DiscordOverlayHost.Controls
             set
             {
                 _bgc2 = value;
-                this.Invalidate();
+                CreateBackgroundBrush();
             }
         }
 
@@ -39,23 +40,64 @@ namespace DiscordOverlayHost.Controls
             set
             {
                 _gradientMode = value;
-                this.Invalidate();
+                CreateBackgroundBrush();
             }
         }
+
+        private LinearGradientBrush _backgroundBrush;
 
         public GradientPanel()
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            CreateBackgroundBrush();
+        }
 
-            BackgroundColor2 = Color.FromKnownColor(KnownColor.Control);
+        private void CreateBackgroundBrush()
+        {
+            //Do not create new brush with 0 width or height.
+            if (Width == 0 || Height == 0)
+            {
+                return;
+            }
+
+            if (_backgroundBrush != null)
+            {
+                _backgroundBrush.Dispose();
+            }
+            _backgroundBrush = new LinearGradientBrush(this.ClientRectangle, BackgroundColor1, BackgroundColor2, GradientMode);
+            if (this.Visible)
+            {
+                this.Invalidate();
+            }
+        }
+
+        protected override void OnResize(EventArgs eventargs)
+        {
+            base.OnResize(eventargs);
+
+            CreateBackgroundBrush();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            using (LinearGradientBrush lgb = new LinearGradientBrush(this.ClientRectangle, BackgroundColor1, BackgroundColor2, GradientMode))
+            if (Width != 0 && Height != 0)
             {
-                e.Graphics.FillRectangle(lgb, this.ClientRectangle);
+                e.Graphics.FillRectangle(_backgroundBrush, this.ClientRectangle);
             }
+        }
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                _backgroundBrush.Dispose();
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
