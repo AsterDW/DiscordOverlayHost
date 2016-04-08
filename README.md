@@ -6,9 +6,9 @@ The program provides an OpenGL and DirectX "game" window that Discord can be poi
 See the YouTube video at the following address for an example on how to use the application.
 https://www.youtube.com/watch?v=prxlvWcBRwA
 
-Currently supported operating systems:
-  *Windows 7
-  *Windows 8 and 8.1
-  *Windows 10
-  
+###Currently supported operating systems:
+ * Windows 7
+ * Windows 8 and 8.1
+ * Windows 10
+
 The system must have at least the .Net Framework 4.5.2 installed.
