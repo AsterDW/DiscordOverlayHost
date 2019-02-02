@@ -25,8 +25,6 @@ namespace OpenGlHost
             }
         }
         private const string windowTitle = "Discord Overlay Host: OpenGL";
-        private const int Width = 350;
-        private const int Height = 450;
         //Duration in seconds to show logo on start.
         private const int LogoDuration = 8;
 
@@ -82,7 +80,8 @@ namespace OpenGlHost
                     new ColorFormat(8, 8, 8, 8)
                     );
 
-                glHostWindow = new GameWindow(Width, Height, gMode, windowTitle);
+                // 190201 peter: set window size from config
+                glHostWindow = new GameWindow(Program.winWidth, Program.winHeight, gMode, windowTitle);
                 glHostWindow.Icon = Properties.Resources.AppIcon;
                 //glHostWindow.TargetRenderFrequency = 60;
                 glHostWindow.Load += GlHostWindow_Load;
@@ -112,7 +111,7 @@ namespace OpenGlHost
 
             GlLoaded = true;
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             GL.Enable(EnableCap.Texture2D);
 
@@ -127,7 +126,8 @@ namespace OpenGlHost
 
         private void GlHostWindow_RenderFrame(object sender, FrameEventArgs e)
         {
-            GL.ClearColor(Color.FromArgb(10, 46, 49, 54));
+            // 190201 peter: set background color from config
+            GL.ClearColor(Color.FromArgb(Program.bgColorAlpha, Program.bgColorRed, Program.bgColorGreen, Program.bgColorBlue));
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             if (clock.IsRunning && DrawLogo)
