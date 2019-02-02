@@ -83,7 +83,8 @@ namespace DirectXHost
             _dxForm = new RenderForm(Constants.WindowTitle);
             _dxForm.HandleCreated += WindowHandleCreated;
             _dxForm.HandleDestroyed += WindowHandleDestroyed;
-            _dxForm.ClientSize = new System.Drawing.Size(Constants.StartWidth, Constants.StartHeight);
+            // 190201 peter: set window size from config
+            _dxForm.ClientSize = new System.Drawing.Size(Program.winWidth, Program.winHeight);
             _dxForm.StartPosition = FormStartPosition.CenterScreen;
         }
 

@@ -24,10 +24,12 @@ namespace DirectXHost
         private DeviceContext _deviceContext;
         private RenderTargetView _renderTargetView;
 
-        private Color _bgColor = new SharpDX.Color(46, 49, 54, 10);
+        private Color _bgColor;
 
         public void Initialise(RenderForm renderForm, bool windowed)
         {
+            // 190201 peter: set background color from config
+            _bgColor = new SharpDX.Color(Program.bgColorRed, Program.bgColorGreen, Program.bgColorBlue, Program.bgColorAlpha);
             ModeDescription modeDescription = DescribeBuffer(renderForm.ClientSize.Width, renderForm.ClientSize.Height);
             swapChainDescription = DescribeSwapChain(modeDescription, renderForm, windowed);
             CreateDevice(swapChainDescription);

@@ -88,7 +88,10 @@ namespace DiscordOverlayHost
                 }
 
                 //Create new process
-                glProcess = Process.Start(@".\Hosts\OpenGlHost.exe");
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = @".\Hosts\OpenGlHost.exe";
+                psi.Arguments = $"\"{Properties.Settings.Default.WindowSize}\" \"{Properties.Settings.Default.BackgroundColorRGBA}\"";
+                glProcess = Process.Start(psi);
                 glProcess.EnableRaisingEvents = true;
                 glProcess.Exited += Process_Exited;
                 glProcess.WaitForInputIdle();
@@ -121,7 +124,10 @@ namespace DiscordOverlayHost
                 }
 
                 //Create new process
-                dxProcess = Process.Start(@".\Hosts\DirectXHost.exe");
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = @".\Hosts\DirectXHost.exe";
+                psi.Arguments = $"\"{Properties.Settings.Default.WindowSize}\" \"{Properties.Settings.Default.BackgroundColorRGBA}\"";
+                dxProcess = Process.Start(psi);
                 dxProcess.EnableRaisingEvents = true;
                 dxProcess.Exited += Process_Exited;
                 dxProcess.WaitForInputIdle();
